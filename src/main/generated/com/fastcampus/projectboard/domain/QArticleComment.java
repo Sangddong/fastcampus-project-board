@@ -1,4 +1,4 @@
-package com.fastcampus.projectbord.domain;
+package com.fastcampus.projectboard.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QArticleComment extends EntityPathBase<ArticleComment> {
 
-    private static final long serialVersionUID = -205775401L;
+    private static final long serialVersionUID = -1653155784L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

@@ -1,8 +1,10 @@
 package com.fastcampus.projectbord.repository;
 
-import com.fastcampus.projectbord.config.JpaConfig;
-import com.fastcampus.projectbord.domain.Article;
-import com.fastcampus.projectbord.domain.ArticleComment;
+import com.fastcampus.projectboard.config.JpaConfig;
+import com.fastcampus.projectboard.domain.Article;
+import com.fastcampus.projectboard.domain.ArticleComment;
+import com.fastcampus.projectboard.repository.ArticleCommentRepository;
+import com.fastcampus.projectboard.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -44,13 +46,18 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenInserting_thenWorksFine() {
         // Given
-        long previousCount = articleRepository.count();
+        long previousCountArticle = articleRepository.count();
+        long previousCountArticleComment = articleCommentRepository.count();
 
         // When
-        Article savedArticle = articleRepository.save(Article.of("new article", "new content", "#spring"));
+        Article savedArticle = articleRepository
+                .save(Article.of("new article", "new content", "#spring"));
+        ArticleComment savedArticleComment = articleCommentRepository
+                .save(ArticleComment.of(savedArticle, "new comment"));
 
         // Then
-        assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
+        assertThat(articleCommentRepository.count())
+                .isEqualTo(previousCountArticleComment + 1);
     }
 
     @DisplayName("update 테스트")
@@ -58,7 +65,7 @@ class JpaRepositoryTest {
     void givenTestData_whenUpdating_thenWorksFine() {
         // Given
         Article article = articleRepository.findById(1L).orElseThrow();
-        String updatedHashtag = "#springboot";
+        String updatedHashtag = "#spring";
         article.setHashtag(updatedHashtag);
 
         // When
@@ -81,7 +88,9 @@ class JpaRepositoryTest {
         articleRepository.delete(article);
 
         // Then
-        assertThat(articleRepository.count()).isEqualTo(previousArticleCount - 1);
-        assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount - deletedCommentsSize);
+        assertThat(articleRepository.count())
+                .isEqualTo(previousArticleCount - 1);
+        assertThat(articleCommentRepository.count())
+                .isEqualTo(previousArticleCommentCount - deletedCommentsSize);
     }
 }
