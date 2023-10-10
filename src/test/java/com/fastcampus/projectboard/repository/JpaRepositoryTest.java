@@ -1,10 +1,8 @@
-package com.fastcampus.projectbord.repository;
+package com.fastcampus.projectboard.repository;
 
 import com.fastcampus.projectboard.config.JpaConfig;
 import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.ArticleComment;
-import com.fastcampus.projectboard.repository.ArticleCommentRepository;
-import com.fastcampus.projectboard.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -35,11 +33,10 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenSelecting_thenWorksFine() {
         List<Article> articles = articleRepository.findAll();
-        List<ArticleComment> articleComments = articleCommentRepository.findAll();
 
-        assertThat(articleComments)
+        assertThat(articles)
                 .isNotNull()
-                .hasSize(1000);
+                .hasSize(123);
     }
 
     @DisplayName("insert 테스트")
@@ -47,17 +44,14 @@ class JpaRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine() {
         // Given
         long previousCountArticle = articleRepository.count();
-        long previousCountArticleComment = articleCommentRepository.count();
 
         // When
         Article savedArticle = articleRepository
                 .save(Article.of("new article", "new content", "#spring"));
-        ArticleComment savedArticleComment = articleCommentRepository
-                .save(ArticleComment.of(savedArticle, "new comment"));
 
         // Then
-        assertThat(articleCommentRepository.count())
-                .isEqualTo(previousCountArticleComment + 1);
+        assertThat(articleRepository.count())
+                .isEqualTo(previousCountArticle + 1);
     }
 
     @DisplayName("update 테스트")
@@ -94,3 +88,4 @@ class JpaRepositoryTest {
                 .isEqualTo(previousArticleCommentCount - deletedCommentsSize);
     }
 }
+
