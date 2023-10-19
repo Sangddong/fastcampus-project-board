@@ -23,8 +23,7 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Column(nullable = false)
+    @Setter @Column(nullable = false)
     private String title; // 제목
     @Setter
     @Column(nullable = false, length = 10000)
